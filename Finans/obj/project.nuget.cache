@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Ej01QP+ST/smtmiEJxZMSy3CagQovqanhxqNDg1+bcfKCbGIBt38TWI8dtPH0HKV6JvnMPqAjliwYOSijIHCxg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\kasim\\source\\repos\\Finans\\Finans\\Finans.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kasim\\.nuget\\packages\\fontawesome\\4.7.0\\fontawesome.4.7.0.nupkg.sha512",
+    "C:\\Users\\kasim\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

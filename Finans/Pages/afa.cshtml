@@ -1,0 +1,75 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+@{
+    // Binance API adresi
+    string apiUrl = "https://api.binance.com/api/v3/ticker/price";
+    string klinesUrl = "https://api.binance.com/api/v3/klines";
+
+    // İstekte kullanılacak sembol
+    string[] symbols = { "BTC", "ETH", "TRX", "BNB", "XRP", "ADA", "SOL", "DOT", "SHIB", "DOGE", "ZEC" };
+
+    // HTML tablosunu başlat
+    string htmlTable = "<table><tr><th>Sembol</th><th>Günlük Değişim</th>Deger<th>Günlük Değişim</th></tr>";
+
+    using (var client = new HttpClient())
+    {
+        foreach (var symbol in symbols)
+        {
+            try
+            {
+
+
+                // Tam istek URL'si
+                string requestUrl = $"{apiUrl}?symbol={symbol}USDT";
+
+                // Veriyi almak için GET isteği gönder
+                var response = await client.GetAsync(requestUrl);
+                response.EnsureSuccessStatusCode();
+
+                // İstek sonucunu metin olarak oku
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                // JSON yanıtını ayrıştır
+                var data = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseBody);
+                decimal price = data.price;
+
+                // Günlük değişimi almak için yeni bir istek gönder
+                string klinesRequestUrl = $"{klinesUrl}?symbol={symbol}USDT&interval=1d&limit=2";
+                var klinesResponse = await client.GetAsync(klinesRequestUrl);
+                klinesResponse.EnsureSuccessStatusCode();
+                var klinesResponseBody = await klinesResponse.Content.ReadAsStringAsync();
+                var klinesData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(klinesResponseBody);
+
+                // İlk ve son kline verilerini al
+                var firstKline = klinesData[0];
+                var lastKline = klinesData[1];
+                decimal firstPrice = firstKline[1];
+                decimal lastPrice = lastKline[4];
+
+                // Günlük değişimi hesapla
+                decimal dailyChange = (lastPrice - firstPrice) / firstPrice * 100;
+
+                // Sembol ve günlük değişimi HTML tablosuna ekle
+                htmlTable += $"<tr><td>{symbol}</td><td>{firstPrice}</td><td>{dailyChange:F2}%</td></tr>";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Hata oluştu: {ex.Message}");
+            }
+        }
+    }
+
+    // HTML tablosunu tamamla
+    htmlTable += "</table>";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    @Html.Raw(htmlTable)
+</div>vi
