@@ -80,19 +80,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kasim\\.nuget\\packages\\": {}
+    "C:\\Users\\Hp\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kasim\\source\\repos\\Finans\\Finans\\Finans.csproj",
+      "projectUniqueName": "C:\\Users\\Hp\\Source\\Repos\\Finance-Api\\Finans\\Finans.csproj",
       "projectName": "Finans",
-      "projectPath": "C:\\Users\\kasim\\source\\repos\\Finans\\Finans\\Finans.csproj",
-      "packagesPath": "C:\\Users\\kasim\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kasim\\source\\repos\\Finans\\Finans\\obj\\",
+      "projectPath": "C:\\Users\\Hp\\Source\\Repos\\Finance-Api\\Finans\\Finans.csproj",
+      "packagesPath": "C:\\Users\\Hp\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Hp\\Source\\Repos\\Finance-Api\\Finans\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\kasim\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -146,7 +151,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }
