@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "1n67gEgt1ikBIcpisirISBw6+SHWL+W95ImTgJ4OKBaPQVGFUVQLsFxVaznvkgg2hC0EPXN2+6HTz5hV7Hq/TQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\kasim\\source\\repos\\Finans\\Finans.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kasim\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

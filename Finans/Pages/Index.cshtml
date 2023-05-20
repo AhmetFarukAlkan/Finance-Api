@@ -1,0 +1,111 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+@{
+    // Binance API adresi
+    string apiUrl = "https://api.binance.com/api/v3/ticker/price";
+    string klinesUrl = "https://api.binance.com/api/v3/klines";
+
+    // İstekte kullanılacak sembol
+    string[] symbols = { "BTC", "ETH", "BNB", "SOL", "DOT", "SHIB", "DOGE"};
+
+    // HTML tablosunu başlat
+    string cryptoView = "<div class='container' style='max-width: 1000px;'><div class='row fw-bold m-auto'><div class='col-4 m-auto'>Name</div><div class='col-4'>Last Price</div><div class='col-4'>24h Change</div></div>";
+
+    using (var client = new HttpClient())
+    {
+        foreach (var symbol in symbols)
+        {
+            try
+            {
+
+                Dictionary<string, string> coinIcons = new Dictionary<string, string>
+                {
+                    { "BTC", "fab fa-bitcoin" },
+                    { "ETH", "fab fa-ethereum" },
+                    { "TRX", "fab fa-tron" },
+                    { "BNB", "fas fa-coins" },
+                    { "XRP", "fab fa-xrp" },
+                    { "ADA", "fab fa-ada" },
+                    { "SOL", "fas fa-sun" },
+                    { "DOT", "fas fa-circle" },
+                    { "SHIB", "fas fa-dog" },
+                    { "DOGE", "fab fa-reddit-alien" },
+                    { "ZEC", "fab fa-zcash" }
+                };
+                // Tam istek URL'si
+                string requestUrl = $"{apiUrl}?symbol={symbol}USDT";
+
+                // Veriyi almak için GET isteği gönder
+                var response = await client.GetAsync(requestUrl);
+                response.EnsureSuccessStatusCode();
+
+                // İstek sonucunu metin olarak oku
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                // JSON yanıtını ayrıştır
+                var data = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(responseBody);
+                decimal price = data.price;
+
+                // Günlük değişimi almak için yeni bir istek gönder
+                string klinesRequestUrl = $"{klinesUrl}?symbol={symbol}USDT&interval=1d&limit=2";
+                var klinesResponse = await client.GetAsync(klinesRequestUrl);
+                klinesResponse.EnsureSuccessStatusCode();
+                var klinesResponseBody = await klinesResponse.Content.ReadAsStringAsync();
+                var klinesData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(klinesResponseBody);
+
+                // İlk ve son kline verilerini al
+                var firstKline = klinesData[0];
+                var lastKline = klinesData[1];
+                decimal firstPrice = firstKline[1];
+                decimal lastPrice = lastKline[4];
+
+                // Günlük değişimi hesapla
+                decimal dailyChange = (lastPrice - firstPrice) / firstPrice * 100;
+
+                string icon = coinIcons.ContainsKey(symbol) ? $"<i class='col-4 {coinIcons[symbol]}'></i>" : "";
+
+                // Sembol ve değeri HTML tablosuna ekle
+                cryptoView += $"<div class='row'><div class='col-4 m-auto p-0'>{icon} {symbol}</div><div class='col-4'>{firstPrice}</div><div class='col-4'>{dailyChange:F2}%</div></div>";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Hata oluştu: {ex.Message}");
+            }
+        }
+    }
+
+    cryptoView += "</div>";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" />
+<div class="text-center">
+    <h1 class="fw-bold">Web Programlama API Kullanım Örneği</h1>
+
+    <div class="container d-flex justify-content-center">
+        @Html.Raw(cryptoView)
+    </div>
+</div>
+
+
+
+<style scoped>
+    .row {
+        transition: all .4s, color 0s;
+        padding: 10px 5px;
+        border-radius: 5px;
+    }
+
+    .row:hover {
+        background-color: var(--bs-yellow);
+        color: white;
+    }
+
+    .col {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
